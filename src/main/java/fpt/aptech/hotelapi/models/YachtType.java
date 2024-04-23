@@ -24,13 +24,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tbl_room_type")
-public class RoomType {
+@Table(name = "tbl_yacht_type")
+public class YachtType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String room_type_name;
+    private String yacht_type_name;
     
-    @OneToMany(mappedBy = "room_type_id", cascade = CascadeType.ALL)
-    private Collection<Room> roomCollection;
+    @OneToMany(mappedBy = "yacht_type_id", cascade = CascadeType.ALL)
+    private Collection<Yacht> yachtCollection;
 }

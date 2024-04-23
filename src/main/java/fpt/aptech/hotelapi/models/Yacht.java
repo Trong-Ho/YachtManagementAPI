@@ -30,33 +30,32 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tbl_room")
-public class Room {
+@Table(name = "tbl_yacht")
+public class Yacht {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
     
-    private String room_no;
-    private Double room_price;
+    private String yacht_no;
+    private Double yacht_price;
     
-    private String room_image;
-    private Integer room_capacity;
-    private String room_description;
+    private String yacht_image;
+    private Integer yacht_capacity;
+    private String yacht_description;
     private Boolean is_active;
    
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = RoomType.class)
-    @JoinColumn(name = "room_type_id", referencedColumnName = "id")
-    private RoomType room_type_id;
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = YachtType.class)
+    @JoinColumn(name = "yacht_type_id", referencedColumnName = "id")
+    private YachtType yacht_type_id;
     
     @ManyToOne(fetch = FetchType.LAZY , targetEntity = BookingStatus.class)
     @JoinColumn(name = "booking_status_id", referencedColumnName = "id")
     private BookingStatus booking_status_id;
     
-    @OneToMany(mappedBy = "room_id" , cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "yacht_id" , cascade = CascadeType.ALL)
     private Collection<Booking> bookingCollection;
     
-    @OneToMany(mappedBy = "room", cascade = CascadeType.PERSIST)
-    private List<Review> reviews;
+    
 }

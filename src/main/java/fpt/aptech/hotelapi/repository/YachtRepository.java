@@ -4,13 +4,10 @@
  */
 package fpt.aptech.hotelapi.repository;
 
-import fpt.aptech.hotelapi.models.Room;
+import fpt.aptech.hotelapi.models.Yacht;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-/**
- *
- * @author ASUS
- */
-public interface RoomRepository extends JpaRepository<Room, Integer> {
+
+public interface YachtRepository extends JpaRepository<Yacht, Integer> {
     
 }

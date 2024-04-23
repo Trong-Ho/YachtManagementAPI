@@ -46,9 +46,9 @@ public class Booking {
     @ManyToOne(fetch = FetchType.LAZY , targetEntity = Users.class)
     private Users customer_id;
     
-    @JoinColumn(name = "room_id" , referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY , targetEntity = Room.class)
-    private Room room_id;
+    @JoinColumn(name = "yacht_id" , referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY , targetEntity = Yacht.class)
+    private Yacht yacht_id;
     
     @OneToOne(mappedBy = "booking")
     private Payment payment;

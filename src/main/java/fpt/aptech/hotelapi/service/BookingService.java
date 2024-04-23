@@ -8,19 +8,18 @@ import fpt.aptech.hotelapi.dto.BookingCurrentDto;
 import fpt.aptech.hotelapi.dto.BookingDto;
 import fpt.aptech.hotelapi.dto.BookingStatusDto;
 import fpt.aptech.hotelapi.dto.RoleDto;
-import fpt.aptech.hotelapi.dto.RoomDto;
-import fpt.aptech.hotelapi.dto.RoomTypeDto;
+import fpt.aptech.hotelapi.dto.YachtDto;
+import fpt.aptech.hotelapi.dto.YachtTypeDto;
 import fpt.aptech.hotelapi.dto.SearchDto;
 import fpt.aptech.hotelapi.dto.UserDto;
 import fpt.aptech.hotelapi.models.Booking;
 import fpt.aptech.hotelapi.models.BookingCurrent;
 import fpt.aptech.hotelapi.models.BookingStatus;
-import fpt.aptech.hotelapi.models.Room;
+import fpt.aptech.hotelapi.models.Yacht;
 import fpt.aptech.hotelapi.models.Users;
 import fpt.aptech.hotelapi.repository.BookingCurrentRepository;
 import fpt.aptech.hotelapi.repository.BookingRepository;
 import fpt.aptech.hotelapi.repository.BookingStatusRepository;
-import fpt.aptech.hotelapi.repository.RoomRepository;
 import fpt.aptech.hotelapi.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,6 +28,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import fpt.aptech.hotelapi.repository.YachtRepository;
 
 /**
  *
@@ -40,19 +40,19 @@ public class BookingService {
     private BookingCurrentRepository _bookingCurrentRepo;
     private BookingStatusRepository _bookingStatusRepo;
     private BookingRepository _bookingRepo;
-    private RoomRepository _roomRepo;
+    private YachtRepository _yachtRepo;
     private UserRepository _userRepo;
 
     @Autowired
     public BookingService(BookingCurrentRepository _bookingCurrentRepo,
             BookingStatusRepository _bookingStatusRepo,
             BookingRepository _bookingRepo,
-            RoomRepository _roomRepo,
+            YachtRepository _yachtRepo,
             UserRepository _userRepo) {
         this._bookingCurrentRepo = _bookingCurrentRepo;
         this._bookingStatusRepo = _bookingStatusRepo;
         this._bookingRepo = _bookingRepo;
-        this._roomRepo = _roomRepo;
+        this._yachtRepo = _yachtRepo;
         this._userRepo = _userRepo;
     }
 
@@ -64,8 +64,8 @@ public class BookingService {
         int total_day = bookingDto.getBooking_to().getDayOfMonth() - bookingDto.getBooking_from().getDayOfMonth();
         booking.setTotal_day(total_day);
 
-        Room roomInfo = _roomRepo.findById(bookingDto.getRoom_id()).orElse(null);
-        double total_price = total_day * roomInfo.getRoom_price();
+        Yacht yachtInfo = _yachtRepo.findById(bookingDto.getYacht_id()).orElse(null);
+        double total_price = total_day * yachtInfo.getYacht_price();
         booking.setTotal_price(total_price);
 
         booking.setNumber_of_member(bookingDto.getNumber_of_member());
@@ -78,7 +78,7 @@ public class BookingService {
         Users customerInfo = _userRepo.findById(bookingDto.getCustomer_id()).orElse(null);
         booking.setCustomer_id(customerInfo);
 
-        booking.setRoom_id(roomInfo);
+        booking.setYacht_id(yachtInfo);
 
         return booking;
     }
@@ -109,52 +109,52 @@ public class BookingService {
         userDto.setRoleInfo(new RoleDto(booking.getCustomer_id().getRole_id().getId(), booking.getCustomer_id().getRole_id().getRoleName()));
         bookingDto.setCustomer_info(userDto);
 
-        bookingDto.setRoom_id(booking.getRoom_id().getId());
-        RoomDto roomDto = new RoomDto();
-        roomDto.setId(booking.getRoom_id().getId());
-        roomDto.setRoom_no(booking.getRoom_id().getRoom_no());
-        roomDto.setRoom_price(booking.getRoom_id().getRoom_price());
-        roomDto.setRoom_image(booking.getRoom_id().getRoom_image());
-        roomDto.setRoom_capacity(booking.getRoom_id().getRoom_capacity());
-        roomDto.setRoom_description(booking.getRoom_id().getRoom_description());
-        roomDto.setIs_active(booking.getRoom_id().getIs_active());
+        bookingDto.setYacht_id(booking.getYacht_id().getId());
+        YachtDto yachtDto = new YachtDto();
+        yachtDto.setId(booking.getYacht_id().getId());
+        yachtDto.setYacht_no(booking.getYacht_id().getYacht_no());
+        yachtDto.setYacht_price(booking.getYacht_id().getYacht_price());
+        yachtDto.setYacht_image(booking.getYacht_id().getYacht_image());
+        yachtDto.setYacht_capacity(booking.getYacht_id().getYacht_capacity());
+        yachtDto.setYacht_description(booking.getYacht_id().getYacht_description());
+        yachtDto.setIs_active(booking.getYacht_id().getIs_active());
 
-        roomDto.setBooking_status_id(booking.getRoom_id().getBooking_status_id().getId());
-        roomDto.setBooking_status_info(new BookingStatusDto(booking.getRoom_id().getBooking_status_id().getId(), booking.getRoom_id().getBooking_status_id().getBooking_status_name()));
+        yachtDto.setBooking_status_id(booking.getYacht_id().getBooking_status_id().getId());
+        yachtDto.setBooking_status_info(new BookingStatusDto(booking.getYacht_id().getBooking_status_id().getId(), booking.getYacht_id().getBooking_status_id().getBooking_status_name()));
 
-        roomDto.setRoom_type_id(booking.getRoom_id().getRoom_type_id().getId());
-        roomDto.setRoom_type_info(new RoomTypeDto(booking.getRoom_id().getRoom_type_id().getId(), booking.getRoom_id().getRoom_type_id().getRoom_type_name()));
+        yachtDto.setYacht_type_id(booking.getYacht_id().getYacht_type_id().getId());
+        yachtDto.setYacht_type_info(new YachtTypeDto(booking.getYacht_id().getYacht_type_id().getId(), booking.getYacht_id().getYacht_type_id().getYacht_type_name()));
 
-        bookingDto.setRoom_info(roomDto);
+        bookingDto.setYacht_info(yachtDto);
 
         return bookingDto;
     }
 
-    private RoomDto mapToRoomDto(Room room) {
-        RoomDto roomDto = new RoomDto();
-        roomDto.setId(room.getId());
-        roomDto.setRoom_no(room.getRoom_no());
-        roomDto.setRoom_price(room.getRoom_price());
-        roomDto.setRoom_image(room.getRoom_image());
-        roomDto.setRoom_capacity(room.getRoom_capacity());
-        roomDto.setRoom_description(room.getRoom_description());
-        roomDto.setIs_active(room.getIs_active());
+    private YachtDto mapToYachtDto(Yacht yacht) {
+        YachtDto yachtDto = new YachtDto();
+        yachtDto.setId(yacht.getId());
+        yachtDto.setYacht_no(yacht.getYacht_no());
+        yachtDto.setYacht_price(yacht.getYacht_price());
+        yachtDto.setYacht_image(yacht.getYacht_image());
+        yachtDto.setYacht_capacity(yacht.getYacht_capacity());
+        yachtDto.setYacht_description(yacht.getYacht_description());
+        yachtDto.setIs_active(yacht.getIs_active());
 
         BookingStatusDto bookingStatusDto = new BookingStatusDto();
-        bookingStatusDto.setId(room.getBooking_status_id().getId());
-        bookingStatusDto.setBooking_status_name(room.getBooking_status_id().getBooking_status_name());
+        bookingStatusDto.setId(yacht.getBooking_status_id().getId());
+        bookingStatusDto.setBooking_status_name(yacht.getBooking_status_id().getBooking_status_name());
 
-        roomDto.setBooking_status_id(bookingStatusDto.getId());
-        roomDto.setBooking_status_info(bookingStatusDto);
+        yachtDto.setBooking_status_id(bookingStatusDto.getId());
+        yachtDto.setBooking_status_info(bookingStatusDto);
 
-        RoomTypeDto roomTypeDto = new RoomTypeDto();
-        roomTypeDto.setId(room.getRoom_type_id().getId());
-        roomTypeDto.setRoom_type_name(room.getRoom_type_id().getRoom_type_name());
+        YachtTypeDto yachtTypeDto = new YachtTypeDto();
+        yachtTypeDto.setId(yacht.getYacht_type_id().getId());
+        yachtTypeDto.setYacht_type_name(yacht.getYacht_type_id().getYacht_type_name());
 
-        roomDto.setRoom_type_id(roomTypeDto.getId());
-        roomDto.setRoom_type_info(roomTypeDto);
+        yachtDto.setYacht_type_id(yachtTypeDto.getId());
+        yachtDto.setYacht_type_info(yachtTypeDto);
 
-        return roomDto;
+        return yachtDto;
     }
 
     public List<BookingDto> allBooking() {
@@ -166,14 +166,14 @@ public class BookingService {
         return _bookingRepo.findById(id).map(mapper -> mapToDto(mapper)).orElse(null);
     }
     
-    public BookingDto findTheLatestBookingOfARoom(int roomId) {
-        List<BookingDto> allBookingOfARoom = _bookingRepo.findAll()
+    public BookingDto findTheLatestBookingOfAYacht(int yachtId) {
+        List<BookingDto> allBookingOfAYacht = _bookingRepo.findAll()
                 .stream()
-                .filter(b -> b.getRoom_id().getId() == roomId)
+                .filter(b -> b.getYacht_id().getId() == yachtId)
                 .map(mapper -> mapToDto(mapper))
                 .toList();
         
-        BookingDto latestBooking = Collections.max(allBookingOfARoom, Comparator.comparing(BookingDto::getBooking_to));
+        BookingDto latestBooking = Collections.max(allBookingOfAYacht, Comparator.comparing(BookingDto::getBooking_to));
         
         return latestBooking;
     }
@@ -187,9 +187,9 @@ public class BookingService {
 
     public BookingDto createNewBooking(BookingDto newBookingDto) {
         BookingStatus bookingStatusReserved = _bookingStatusRepo.findById(2).orElse(null);
-        Room roomUpdate = _roomRepo.findById(newBookingDto.getRoom_id()).orElse(null);
-        roomUpdate.setBooking_status_id(bookingStatusReserved);
-        _roomRepo.save(roomUpdate);
+        Yacht yachtUpdate = _yachtRepo.findById(newBookingDto.getYacht_id()).orElse(null);
+        yachtUpdate.setBooking_status_id(bookingStatusReserved);
+        _yachtRepo.save(yachtUpdate);
 
         newBookingDto.setBooking_current_id(1);
         Booking newBooking = mapToModel(newBookingDto);
@@ -202,7 +202,7 @@ public class BookingService {
     public BookingDto confirmBookingDetailByCustomer(BookingDto newBookingDto) {
         List<BookingDto> findingBooking = _bookingRepo.findAll()
                 .stream()
-                .filter(b -> (b.getRoom_id().getId() == newBookingDto.getRoom_id())
+                .filter(b -> (b.getYacht_id().getId() == newBookingDto.getYacht_id())
                 && ((newBookingDto.getBooking_from().isEqual(b.getBooking_from()))
                 || (newBookingDto.getBooking_from().isEqual(b.getBooking_to()))
                 || (newBookingDto.getBooking_to().isEqual(b.getBooking_from()))
@@ -224,11 +224,11 @@ public class BookingService {
             bookingInfo.setNumber_of_member(newBookingDto.getNumber_of_member());
             int total_day = newBookingDto.getBooking_to().getDayOfMonth() - newBookingDto.getBooking_from().getDayOfMonth();
             bookingInfo.setTotal_day(total_day);
-            Room roomInfo = _roomRepo.findById(newBookingDto.getRoom_id()).orElse(null);
-            bookingInfo.setRoom_id(roomInfo);
+            Yacht yachtInfo = _yachtRepo.findById(newBookingDto.getYacht_id()).orElse(null);
+            bookingInfo.setYacht_id(yachtInfo);
             Users customerInfo = _userRepo.findById(newBookingDto.getCustomer_id()).orElse(null);
             bookingInfo.setCustomer_id(customerInfo);
-            double total_price = total_day * roomInfo.getRoom_price();
+            double total_price = total_day * yachtInfo.getYacht_price();
             bookingInfo.setTotal_price(total_price);
             bookingInfo.setBooking_current_id(_bookingCurrentRepo.findById(1).orElse(null));
             
@@ -238,9 +238,9 @@ public class BookingService {
     
     public BookingDto createNewBookingByCustomer(BookingDto newBookingDto) {
         BookingStatus bookingStatusReserved = _bookingStatusRepo.findById(2).orElse(null);
-        Room roomUpdate = _roomRepo.findById(newBookingDto.getRoom_id()).orElse(null);
-        roomUpdate.setBooking_status_id(bookingStatusReserved);
-        _roomRepo.save(roomUpdate);
+        Yacht yachtUpdate = _yachtRepo.findById(newBookingDto.getYacht_id()).orElse(null);
+        yachtUpdate.setBooking_status_id(bookingStatusReserved);
+        _yachtRepo.save(yachtUpdate);
 
         newBookingDto.setBooking_current_id(1);
         Booking newBooking = mapToModel(newBookingDto);
@@ -272,9 +272,9 @@ public class BookingService {
         BookingStatus occupiedStatus = _bookingStatusRepo.findAll()
                 .stream().filter(b -> b.getBooking_status_name().equals("OCCUPIED"))
                 .findFirst().orElse(null);
-        Room roomInfo = bookingInfoToOperational.getRoom_id();
-        roomInfo.setBooking_status_id(occupiedStatus);
-        _roomRepo.save(roomInfo);
+        Yacht yachtInfo = bookingInfoToOperational.getYacht_id();
+        yachtInfo.setBooking_status_id(occupiedStatus);
+        _yachtRepo.save(yachtInfo);
 
         Booking response = _bookingRepo.save(bookingInfoToOperational);
 
@@ -291,9 +291,9 @@ public class BookingService {
         BookingStatus vacancyStatus = _bookingStatusRepo.findAll()
                 .stream().filter(b -> b.getBooking_status_name().equals("VACANCY"))
                 .findFirst().orElse(null);
-        Room roomInfo = bookingInfoToComplete.getRoom_id();
-        roomInfo.setBooking_status_id(vacancyStatus);
-        _roomRepo.save(roomInfo);
+        Yacht yachtInfo = bookingInfoToComplete.getYacht_id();
+        yachtInfo.setBooking_status_id(vacancyStatus);
+        _yachtRepo.save(yachtInfo);
 
         Booking response = _bookingRepo.save(bookingInfoToComplete);
 
@@ -311,42 +311,42 @@ public class BookingService {
         BookingStatus vacancyStatus = _bookingStatusRepo.findAll()
                 .stream().filter(b -> b.getBooking_status_name().equals("VACANCY"))
                 .findFirst().orElse(null);
-        Room roomInfo = bookingInfoToCancel.getRoom_id();
-        roomInfo.setBooking_status_id(vacancyStatus);
-        _roomRepo.save(roomInfo);
+        Yacht yachtInfo = bookingInfoToCancel.getYacht_id();
+        yachtInfo.setBooking_status_id(vacancyStatus);
+        _yachtRepo.save(yachtInfo);
 
         Booking response = _bookingRepo.save(bookingInfoToCancel);
 
         return mapToDto(response);
     }
 
-    //Search Room by Booking
-    public List<RoomDto> searchAvailableRoomForBooking(SearchDto searchDto) {
+    //Search Yacht by Booking
+    public List<YachtDto> searchAvailableYachtForBooking(SearchDto searchDto) {
         if (searchDto.getBooking_from() == null && searchDto.getBooking_to() == null) {
-            if (searchDto.getRoom_type_id() == 0 && (searchDto.getFrom_price() != 0 && searchDto.getTo_price() != 0)) {
-                List<RoomDto> allRoomAvailable = _roomRepo.findAll()
+            if (searchDto.getYacht_type_id() == 0 && (searchDto.getFrom_price() != 0 && searchDto.getTo_price() != 0)) {
+                List<YachtDto> allYachtAvailable = _yachtRepo.findAll()
                         .stream()
-                        .filter(r -> r.getRoom_price() >= searchDto.getFrom_price() && r.getRoom_price() <= searchDto.getTo_price())
-                        .map(mapper -> mapToRoomDto(mapper))
+                        .filter(r -> r.getYacht_price() >= searchDto.getFrom_price() && r.getYacht_price() <= searchDto.getTo_price())
+                        .map(mapper -> mapToYachtDto(mapper))
                         .toList();
-                return allRoomAvailable;
-            } else if (searchDto.getRoom_type_id() != 0 && (searchDto.getFrom_price() != 0 && searchDto.getTo_price() != 0)) {
-                List<RoomDto> allRoomAvailable = _roomRepo.findAll()
+                return allYachtAvailable;
+            } else if (searchDto.getYacht_type_id() != 0 && (searchDto.getFrom_price() != 0 && searchDto.getTo_price() != 0)) {
+                List<YachtDto> allYachtAvailable = _yachtRepo.findAll()
                         .stream()
-                        .filter(r -> r.getRoom_price() >= searchDto.getFrom_price() && r.getRoom_price() <= searchDto.getTo_price() && r.getRoom_type_id().getId() == searchDto.getRoom_type_id())
-                        .map(mapper -> mapToRoomDto(mapper))
+                        .filter(r -> r.getYacht_price() >= searchDto.getFrom_price() && r.getYacht_price() <= searchDto.getTo_price() && r.getYacht_type_id().getId() == searchDto.getYacht_type_id())
+                        .map(mapper -> mapToYachtDto(mapper))
                         .toList();
-                return allRoomAvailable;
+                return allYachtAvailable;
             } else {
-                List<RoomDto> allRoomAvailable = _roomRepo.findAll()
+                List<YachtDto> allYachtAvailable = _yachtRepo.findAll()
                         .stream()
-                        .filter(r -> r.getRoom_type_id().getId() == searchDto.getRoom_type_id())
-                        .map(mapper -> mapToRoomDto(mapper))
+                        .filter(r -> r.getYacht_type_id().getId() == searchDto.getYacht_type_id())
+                        .map(mapper -> mapToYachtDto(mapper))
                         .toList();
-                return allRoomAvailable;
+                return allYachtAvailable;
             }
         } else {
-            if (searchDto.getRoom_type_id() == 0 && (searchDto.getFrom_price() != 0 && searchDto.getTo_price() != 0)) {
+            if (searchDto.getYacht_type_id() == 0 && (searchDto.getFrom_price() != 0 && searchDto.getTo_price() != 0)) {
                 List<BookingDto> allBookingHaveBeenBooked = _bookingRepo.findAll()
                         .stream()
                         .filter(b
@@ -363,18 +363,18 @@ public class BookingService {
 
                 System.out.println(allBookingHaveBeenBooked);
 
-                List<RoomDto> allRoomBooked = new ArrayList<>();
-                allBookingHaveBeenBooked.stream().forEach(b -> allRoomBooked.add(b.getRoom_info()));
-                System.out.println(allRoomBooked);
+                List<YachtDto> allYachtBooked = new ArrayList<>();
+                allBookingHaveBeenBooked.stream().forEach(b -> allYachtBooked.add(b.getYacht_info()));
+                System.out.println(allYachtBooked);
 
-                List<RoomDto> allRoomAvailable = _roomRepo.findAll()
+                List<YachtDto> allYachtAvailable = _yachtRepo.findAll()
                         .stream()
-                        .filter(p -> (!allRoomBooked.stream().anyMatch(r -> r.getId() == p.getId())) && (p.getRoom_price() >= searchDto.getFrom_price() && p.getRoom_price() <= searchDto.getTo_price()))
-                        .map(mapper -> mapToRoomDto(mapper))
+                        .filter(p -> (!allYachtBooked.stream().anyMatch(r -> r.getId() == p.getId())) && (p.getYacht_price() >= searchDto.getFrom_price() && p.getYacht_price() <= searchDto.getTo_price()))
+                        .map(mapper -> mapToYachtDto(mapper))
                         .toList();
 
-                return allRoomAvailable;
-            } else if (searchDto.getRoom_type_id() != 0 && (searchDto.getFrom_price() != 0 && searchDto.getTo_price() != 0)) {
+                return allYachtAvailable;
+            } else if (searchDto.getYacht_type_id() != 0 && (searchDto.getFrom_price() != 0 && searchDto.getTo_price() != 0)) {
                 List<BookingDto> allBookingHaveBeenBooked = _bookingRepo.findAll()
                         .stream()
                         .filter(b
@@ -391,18 +391,18 @@ public class BookingService {
 
                 System.out.println(allBookingHaveBeenBooked);
 
-                List<RoomDto> allRoomBooked = new ArrayList<>();
-                allBookingHaveBeenBooked.stream().forEach(b -> allRoomBooked.add(b.getRoom_info()));
-                System.out.println(allRoomBooked);
+                List<YachtDto> allYachtBooked = new ArrayList<>();
+                allBookingHaveBeenBooked.stream().forEach(b -> allYachtBooked.add(b.getYacht_info()));
+                System.out.println(allYachtBooked);
 
-                List<RoomDto> allRoomAvailable = _roomRepo.findAll()
+                List<YachtDto> allYachtAvailable = _yachtRepo.findAll()
                         .stream()
-                        .filter(p -> (!allRoomBooked.stream().anyMatch(r -> r.getId() == p.getId())) && (p.getRoom_price() >= searchDto.getFrom_price() && p.getRoom_price() <= searchDto.getTo_price()) && (p.getRoom_type_id().getId() == searchDto.getRoom_type_id()))
-                        .map(mapper -> mapToRoomDto(mapper))
+                        .filter(p -> (!allYachtBooked.stream().anyMatch(r -> r.getId() == p.getId())) && (p.getYacht_price() >= searchDto.getFrom_price() && p.getYacht_price() <= searchDto.getTo_price()) && (p.getYacht_type_id().getId() == searchDto.getYacht_type_id()))
+                        .map(mapper -> mapToYachtDto(mapper))
                         .toList();
 
-                return allRoomAvailable;
-            } else if (searchDto.getRoom_type_id() == 0 && searchDto.getFrom_price() == 0 && searchDto.getTo_price() == 0) {
+                return allYachtAvailable;
+            } else if (searchDto.getYacht_type_id() == 0 && searchDto.getFrom_price() == 0 && searchDto.getTo_price() == 0) {
                 List<BookingDto> allBookingHaveBeenBooked = _bookingRepo.findAll()
                         .stream()
                         .filter(b
@@ -419,17 +419,17 @@ public class BookingService {
 
                 System.out.println(allBookingHaveBeenBooked);
 
-                List<RoomDto> allRoomBooked = new ArrayList<>();
-                allBookingHaveBeenBooked.stream().forEach(b -> allRoomBooked.add(b.getRoom_info()));
-                System.out.println(allRoomBooked);
+                List<YachtDto> allYachtBooked = new ArrayList<>();
+                allBookingHaveBeenBooked.stream().forEach(b -> allYachtBooked.add(b.getYacht_info()));
+                System.out.println(allYachtBooked);
 
-                List<RoomDto> allRoomAvailable = _roomRepo.findAll()
+                List<YachtDto> allYachtAvailable = _yachtRepo.findAll()
                         .stream()
-                        .filter(p -> !allRoomBooked.stream().anyMatch(r -> r.getId() == p.getId()))
-                        .map(mapper -> mapToRoomDto(mapper))
+                        .filter(p -> !allYachtBooked.stream().anyMatch(r -> r.getId() == p.getId()))
+                        .map(mapper -> mapToYachtDto(mapper))
                         .toList();
 
-                return allRoomAvailable;
+                return allYachtAvailable;
             } else {
                 List<BookingDto> allBookingHaveBeenBooked = _bookingRepo.findAll()
                         .stream()
@@ -447,17 +447,17 @@ public class BookingService {
 
                 System.out.println(allBookingHaveBeenBooked);
 
-                List<RoomDto> allRoomBooked = new ArrayList<>();
-                allBookingHaveBeenBooked.stream().forEach(b -> allRoomBooked.add(b.getRoom_info()));
-                System.out.println(allRoomBooked);
+                List<YachtDto> allYachtBooked = new ArrayList<>();
+                allBookingHaveBeenBooked.stream().forEach(b -> allYachtBooked.add(b.getYacht_info()));
+                System.out.println(allYachtBooked);
 
-                List<RoomDto> allRoomAvailable = _roomRepo.findAll()
+                List<YachtDto> allYachtAvailable = _yachtRepo.findAll()
                         .stream()
-                        .filter(p -> (!allRoomBooked.stream().anyMatch(r -> r.getId() == p.getId())) && (p.getRoom_type_id().getId() == searchDto.getRoom_type_id()))
-                        .map(mapper -> mapToRoomDto(mapper))
+                        .filter(p -> (!allYachtBooked.stream().anyMatch(r -> r.getId() == p.getId())) && (p.getYacht_type_id().getId() == searchDto.getYacht_type_id()))
+                        .map(mapper -> mapToYachtDto(mapper))
                         .toList();
 
-                return allRoomAvailable;
+                return allYachtAvailable;
             }
         }
     }

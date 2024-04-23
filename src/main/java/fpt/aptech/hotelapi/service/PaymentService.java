@@ -9,8 +9,8 @@ import fpt.aptech.hotelapi.dto.BookingDto;
 import fpt.aptech.hotelapi.dto.BookingStatusDto;
 import fpt.aptech.hotelapi.dto.PaymentDto;
 import fpt.aptech.hotelapi.dto.RoleDto;
-import fpt.aptech.hotelapi.dto.RoomDto;
-import fpt.aptech.hotelapi.dto.RoomTypeDto;
+import fpt.aptech.hotelapi.dto.YachtDto;
+import fpt.aptech.hotelapi.dto.YachtTypeDto;
 import fpt.aptech.hotelapi.dto.UserDto;
 import fpt.aptech.hotelapi.models.Booking;
 import fpt.aptech.hotelapi.models.Feedback;
@@ -68,23 +68,23 @@ public class PaymentService {
         userDto.setRoleInfo(new RoleDto(booking.getCustomer_id().getRole_id().getId(), booking.getCustomer_id().getRole_id().getRoleName()));
         bookingDto.setCustomer_info(userDto);
 
-        bookingDto.setRoom_id(booking.getRoom_id().getId());
-        RoomDto roomDto = new RoomDto();
-        roomDto.setId(booking.getRoom_id().getId());
-        roomDto.setRoom_no(booking.getRoom_id().getRoom_no());
-        roomDto.setRoom_price(booking.getRoom_id().getRoom_price());
-        roomDto.setRoom_image(booking.getRoom_id().getRoom_image());
-        roomDto.setRoom_capacity(booking.getRoom_id().getRoom_capacity());
-        roomDto.setRoom_description(booking.getRoom_id().getRoom_description());
-        roomDto.setIs_active(booking.getRoom_id().getIs_active());
+        bookingDto.setYacht_id(booking.getYacht_id().getId());
+        YachtDto roomDto = new YachtDto();
+        roomDto.setId(booking.getYacht_id().getId());
+        roomDto.setYacht_no(booking.getYacht_id().getYacht_no());
+        roomDto.setYacht_price(booking.getYacht_id().getYacht_price());
+        roomDto.setYacht_image(booking.getYacht_id().getYacht_image());
+        roomDto.setYacht_capacity(booking.getYacht_id().getYacht_capacity());
+        roomDto.setYacht_description(booking.getYacht_id().getYacht_description());
+        roomDto.setIs_active(booking.getYacht_id().getIs_active());
 
-        roomDto.setBooking_status_id(booking.getRoom_id().getBooking_status_id().getId());
-        roomDto.setBooking_status_info(new BookingStatusDto(booking.getRoom_id().getBooking_status_id().getId(), booking.getRoom_id().getBooking_status_id().getBooking_status_name()));
+        roomDto.setBooking_status_id(booking.getYacht_id().getBooking_status_id().getId());
+        roomDto.setBooking_status_info(new BookingStatusDto(booking.getYacht_id().getBooking_status_id().getId(), booking.getYacht_id().getBooking_status_id().getBooking_status_name()));
 
-        roomDto.setRoom_type_id(booking.getRoom_id().getRoom_type_id().getId());
-        roomDto.setRoom_type_info(new RoomTypeDto(booking.getRoom_id().getRoom_type_id().getId(), booking.getRoom_id().getRoom_type_id().getRoom_type_name()));
+        roomDto.setYacht_type_id(booking.getYacht_id().getYacht_type_id().getId());
+        roomDto.setYacht_type_info(new YachtTypeDto(booking.getYacht_id().getYacht_type_id().getId(), booking.getYacht_id().getYacht_type_id().getYacht_type_name()));
 
-        bookingDto.setRoom_info(roomDto);
+        bookingDto.setYacht_info(roomDto);
 
         return bookingDto;
     }
@@ -135,8 +135,8 @@ public class PaymentService {
     public void sendFeedback(Payment payment) {
         String str = "Hotel Invoke \n"
                 + "Customer Name: " + payment.getBooking().getCustomer_id().getUsername() + "\n"
-                + "Room No: " + payment.getBooking().getRoom_id().getRoom_no() + "\n"
-                + "Room Price: " + payment.getBooking().getRoom_id().getRoom_price() + "\n"
+                + "Room No: " + payment.getBooking().getYacht_id().getYacht_no() + "\n"
+                + "Room Price: " + payment.getBooking().getYacht_id().getYacht_price() + "\n"
                 + "Booking From: " + payment.getBooking().getBooking_from() + "\n"
                 + "Booking To: " + payment.getBooking().getBooking_to() + "\n"
                 + "Total Day: " + payment.getBooking().getTotal_day() + "\n"

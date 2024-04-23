@@ -33,5 +33,5 @@ public class BookingStatus {
     private String booking_status_name;
     
     @OneToMany(mappedBy = "booking_status_id", cascade = CascadeType.ALL)
-    private Collection<Room> roomCollection;
+    private Collection<Yacht> yachtCollection;
 }

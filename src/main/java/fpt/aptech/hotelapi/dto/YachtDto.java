@@ -8,14 +8,22 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- *
- * @author TuanNguyen
- */
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoomTypeDto {
+public class YachtDto {
     private Integer id;
-    private String room_type_name;
+    private String yacht_no;
+    private Double yacht_price;
+    private String yacht_image;
+    private Integer yacht_capacity;
+    private String yacht_description;
+    private Boolean is_active;
+    
+    private int booking_status_id;
+    private BookingStatusDto booking_status_info;
+    
+    private int yacht_type_id;
+    private YachtTypeDto yacht_type_info;
 }

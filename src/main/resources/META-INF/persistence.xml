@@ -5,6 +5,11 @@
     <class>fpt.aptech.hotelapi.models.Role</class>
     <class>fpt.aptech.hotelapi.models.Users</class>
     <class>fpt.aptech.hotelapi.models.News</class>
+    <class>fpt.aptech.hotelapi.models.TblYachtType</class>
+    <class>fpt.aptech.hotelapi.models.TblBookingStatus</class>
+    <class>fpt.aptech.hotelapi.models.TblRole</class>
+    <class>fpt.aptech.hotelapi.models.TblUsers</class>
+    <class>fpt.aptech.hotelapi.models.TblYacht</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=Project4;encrypt=true;trustServerCertificate=true"/>
       <property name="javax.persistence.jdbc.user" value="sa"/>

@@ -8,14 +8,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- *
- * @author ASUS
- */
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ServiceCategoryDto {
     private Integer id;
     private String name;
+//    private Integer yacht_id;
 }

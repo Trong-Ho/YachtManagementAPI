@@ -5,7 +5,7 @@
 package fpt.aptech.hotelapi.controller;
 
 import fpt.aptech.hotelapi.dto.BookingDto;
-import fpt.aptech.hotelapi.dto.RoomDto;
+import fpt.aptech.hotelapi.dto.YachtDto;
 import fpt.aptech.hotelapi.dto.SearchDto;
 import fpt.aptech.hotelapi.service.BookingService;
 import java.util.List;
@@ -41,9 +41,9 @@ public class BookingAPIController {
         return _bookingService.findById(id);
     }
     
-    @GetMapping("/findthelatestbookingofaroom/{roomId}")
-    public BookingDto function_findTheLatestBookingOfARoom(@PathVariable("roomId") int roomId) {
-        return _bookingService.findTheLatestBookingOfARoom(roomId);
+    @GetMapping("/findthelatestbookingofayacht/{yachtId}")
+    public BookingDto function_findTheLatestBookingOfAYacht(@PathVariable("yachtId") int yachtId) {
+        return _bookingService.findTheLatestBookingOfAYacht(yachtId);
     }
     
     @GetMapping("/allbookingbycustomer/{customerId}")
@@ -87,11 +87,11 @@ public class BookingAPIController {
         return _bookingService.createNewBookingByCustomer(newBookingDto);
     }
     
-    //Room Available For Booking
-    @PostMapping("/availableroomforbooking")
-    public List<RoomDto> function_availableRoomForBooking(@RequestBody SearchDto searchDto) {
+    //Yacht Available For Booking
+    @PostMapping("/availableyachtforbooking")
+    public List<YachtDto> function_availableYachtForBooking(@RequestBody SearchDto searchDto) {
         System.out.println(searchDto);
-        return _bookingService.searchAvailableRoomForBooking(searchDto);
+        return _bookingService.searchAvailableYachtForBooking(searchDto);
     }
     
 }

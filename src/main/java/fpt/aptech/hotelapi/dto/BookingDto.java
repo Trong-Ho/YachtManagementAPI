@@ -35,6 +35,6 @@ public class BookingDto {
     private int customer_id;
     private UserDto customer_info;
     
-    private int room_id;
-    private RoomDto room_info;
+    private int yacht_id;
+    private YachtDto yacht_info;
 }

@@ -5,13 +5,13 @@
 package fpt.aptech.hotelapi.service;
 
 import fpt.aptech.hotelapi.models.Blog;
-import fpt.aptech.hotelapi.models.Room;
+import fpt.aptech.hotelapi.models.Yacht;
 import fpt.aptech.hotelapi.repository.BlogRepository;
-import fpt.aptech.hotelapi.repository.RoomRepository;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import fpt.aptech.hotelapi.repository.YachtRepository;
 
 /**
  *
@@ -22,7 +22,7 @@ public class BlogService {
       @Autowired
     private BlogRepository blogRepo;
       @Autowired
-      private RoomRepository roomRepo;
+      private YachtRepository yachtRepo;
 
     /**
      * Lấy danh sách tất cả bài đăng Blog.
@@ -32,8 +32,8 @@ public class BlogService {
     public List<Blog> findAll() {
         return blogRepo.findAll();
     }
-    public List<Room>findAllRoom(){
-        return roomRepo.findAll();
+    public List<Yacht>findAllYachts(){
+        return yachtRepo.findAll();
     }
 
     /**

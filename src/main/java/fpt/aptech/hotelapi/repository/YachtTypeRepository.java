@@ -4,14 +4,13 @@
  */
 package fpt.aptech.hotelapi.repository;
 
-import fpt.aptech.hotelapi.models.Review;
-import java.util.List;
+import fpt.aptech.hotelapi.models.YachtType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
- * @author PC
+ * @author TuanNguyen
  */
-public interface ReviewRepository extends JpaRepository<Review, Integer> {
-    public List<Review> findByReviewtextContainingIgnoreCase(String reviewtext);
+public interface YachtTypeRepository extends JpaRepository<YachtType, Integer> {
+    
 }

@@ -5,7 +5,7 @@
 package fpt.aptech.hotelapi.controller;
 
 import fpt.aptech.hotelapi.models.Blog;
-import fpt.aptech.hotelapi.models.Room;
+import fpt.aptech.hotelapi.models.Yacht;
 import fpt.aptech.hotelapi.service.BlogService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +38,8 @@ public class BlogRestController {
         return new ResponseEntity<>(blogs, HttpStatus.OK);
     }
     @GetMapping("/rooms")
-    public ResponseEntity<List<Room>> getAllRoom() {
-        List<Room> rooms = blogService.findAllRoom();
+    public ResponseEntity<List<Yacht>> getAllYacht() {
+        List<Yacht> rooms = blogService.findAllYachts();
         return new ResponseEntity<>(rooms, HttpStatus.OK);
     }
 

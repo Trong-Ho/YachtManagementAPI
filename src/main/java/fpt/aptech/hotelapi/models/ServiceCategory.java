@@ -8,6 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,9 +25,14 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "tbl_category")
 public class ServiceCategory {
-     @Id
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;
+
+//    @JoinColumn(name = "yacht_id", referencedColumnName = "id")
+//    @ManyToOne
+//    private Yacht yacht_id;
 }
